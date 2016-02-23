@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">finalproject</string>
+    <string-array name="distance">
+        <item>1 Mile</item>
+        <item>5 Miles</item>
+        <item>10 Miles</item>
+    </string-array>
+    <string-array name="food_type">
+        <item>Mercury</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
 </resources>
