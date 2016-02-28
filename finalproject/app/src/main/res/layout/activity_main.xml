@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -9,22 +10,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="stooges.three.finalproject.MainActivity">
 
-    <Button
+    <com.dd.CircularProgressButton
+        android:id="@+id/search_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hit Me"
-        android:id="@+id/search_button"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:cpb_cornerRadius="48dp"
+        app:cpb_textComplete="Finished Searching"
+        app:cpb_textError="Error"
+        app:cpb_textIdle="Hit Me"
         android:layout_alignParentTop="true"
         android:layout_marginTop="109dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"/>
 
-    <Button
+
+    <com.dd.CircularProgressButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hit Me In Favorites"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        app:cpb_cornerRadius="48dp"
+        app:cpb_textComplete="Finished Searching"
+        app:cpb_textError="Error"
+        app:cpb_textIdle="Hit Me with Friends"
+        android:layout_marginTop="10dp"
         android:id="@+id/favorites_search"
         android:layout_below="@+id/search_button"
         android:layout_centerHorizontal="true" />
