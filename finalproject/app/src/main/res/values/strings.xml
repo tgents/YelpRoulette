@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">finalproject</string>
+    <string name="app_name">Yelp Roulette</string>
     <string-array name="distance">
         <item>1 Mile</item>
         <item>5 Miles</item>
