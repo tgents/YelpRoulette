@@ -42,13 +42,6 @@
         android:layout_below="@+id/search_button"
         android:layout_centerHorizontal="true" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/filter_distance"
-        android:layout_below="@+id/favorites_search"
-        android:layout_marginTop="50dp"
-        android:layout_alignLeft="@+id/favorites_search"
-        android:layout_alignStart="@+id/favorites_search" />
+
 
 </RelativeLayout>
