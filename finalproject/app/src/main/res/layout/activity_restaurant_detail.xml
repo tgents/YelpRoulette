@@ -11,16 +11,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/TagLine">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Restaurant Name"
+            android:text="Thai Tom"
             style="@android:style/TextAppearance.Large"/>
         <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@drawable/ic_heart_unfilled"
+            android:background="@null"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TagLine"
+        android:orientation="vertical">
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:stepSize="0.5"
+            android:rating="3.5"
+            android:isIndicator="false"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/img_thai_tom"/>
+    </LinearLayout>
+
+
+
 </RelativeLayout>
