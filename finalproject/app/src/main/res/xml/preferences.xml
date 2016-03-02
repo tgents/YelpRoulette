@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="pref_distance"
+        android:title="Distance"
+        android:dialogTitle="How far search radius extends"
+        android:entries="@array/distance"
+        android:entryValues="@array/distance"
+        android:defaultValue="5" />
+
+    <ListPreference
+        android:key="pref_food"
+        android:title="Food Type"
+        android:dialogTitle="Types of food to search for"
+        android:entries="@array/food_type"
+        android:entryValues="@array/food_type"
+        android:defaultValue="All" />
+</PreferenceScreen>
