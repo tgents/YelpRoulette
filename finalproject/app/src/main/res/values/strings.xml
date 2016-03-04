@@ -16,6 +16,10 @@
         <item>Neptune</item>
     </string-array>
 
+    <string name="RestaurantName">Restaurant Name</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent auctor leo sed varius pellentesque. Vivamus eu mauris ut ligula condimentum dignissim eu quis nulla. Integer a orci ac metus lacinia tincidunt eget in sem. Duis varius dui molestie quam aliquam posuere. Suspendisse fermentum viverra justo, in iaculis nisl eleifend sodales. Mauris id lacus orci. Ut eleifend quam tincidunt rhoncus gravida. Nulla rutrum, diam eget semper dapibus, urna tortor facilisis est, et lobortis justo orci at velit. Fusce sit amet nisi urna. Vivamus sagittis magna at neque feugiat, in scelerisque urna ultrices. Suspendisse at laoreet arcu. Ut ornare enim sit amet molestie efficitur.
+
+</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
