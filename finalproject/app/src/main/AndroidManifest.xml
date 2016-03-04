@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".FavoritesActivity" />
         <activity android:name=".RestaurantDetailActivity"/>
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity"/>
     </application>
 
 </manifest>
