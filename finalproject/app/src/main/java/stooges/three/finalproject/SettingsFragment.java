@@ -1,6 +1,7 @@
 package stooges.three.finalproject;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -32,10 +33,19 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        getView().setBackgroundColor(Color.WHITE);
+        getView().setClickable(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+
 
         distance = (ListPreference)  getPreferenceManager().findPreference("pref_distance");
         distance.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

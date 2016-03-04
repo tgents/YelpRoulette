@@ -15,6 +15,5 @@ public class FavoritesActivity extends AppCompatActivity {
         long lon = (long) -122.3081657;
 
         YelpApi search = new YelpApi();
-        Log.v("SEARCHTEST", search.search("restaurant", lat, lon));
     }
 }

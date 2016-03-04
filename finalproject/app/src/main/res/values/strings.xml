@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">Yelp Roulette</string>
+    <string name="distance_default">5</string>
+    <string-array name="pref_food_empty"></string-array>
     <string-array name="distance">
         <item>1 Mile</item>
         <item>5 Miles</item>
         <item>10 Miles</item>
+    </string-array>
+    <string-array name="distance_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
     </string-array>
     <string-array name="food_type">
         <item>Mercury</item>

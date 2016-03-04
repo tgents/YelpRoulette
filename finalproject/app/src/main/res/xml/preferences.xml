@@ -3,16 +3,16 @@
     <ListPreference
         android:key="pref_distance"
         android:title="Distance"
-        android:dialogTitle="How far search radius extends"
+        android:summary="How far search radius extends :  %s"
         android:entries="@array/distance"
-        android:entryValues="@array/distance"
+        android:entryValues="@array/distance_values"
         android:defaultValue="5" />
 
-    <ListPreference
-        android:key="pref_food"
-        android:title="Food Type"
-        android:dialogTitle="Types of food to search for"
+    <MultiSelectListPreference
+        android:key="pref_foodtype"
+        android:title="Food Types"
+        android:summary="Types of food to search for"
         android:entries="@array/food_type"
         android:entryValues="@array/food_type"
-        android:defaultValue="All" />
+        android:defaultValue="@array/pref_food_empty" />
 </PreferenceScreen>

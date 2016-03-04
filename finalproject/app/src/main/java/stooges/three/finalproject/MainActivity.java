@@ -41,11 +41,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, new SettingsFragment());
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(i);
             }
         });
 
