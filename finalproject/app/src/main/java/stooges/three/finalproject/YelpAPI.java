@@ -2,6 +2,7 @@ package stooges.three.finalproject;
 
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.OAuthRequest;
@@ -13,7 +14,7 @@ import org.scribe.oauth.OAuthService;
 /**
  * Created by Thomas on 3/1/2016.
  */
-public class YelpApi extends AsyncTask<String, Void, Response> {
+public class YelpApi extends AsyncTask<String, Void, String> {
     private static final String API_HOST = "api.yelp.com";
     private static final String SEARCH_PATH = "/v2/search";
 
@@ -26,17 +27,45 @@ public class YelpApi extends AsyncTask<String, Void, Response> {
     private Token accessToken;
 
     @Override
-    protected Response doInBackground(String... params) {
+    protected String doInBackground(String... params) {
         String term = params[0];
         String latitude = params[1];
         String longitude = params[2];
+
+        //set up service
         this.service = new ServiceBuilder().provider(YelpApi2.class).apiKey(consumer).apiSecret(consumer_secret).build();
         this.accessToken = new Token(token, token_secret);
+
+        //make query and sign
         OAuthRequest request = new OAuthRequest(Verb.GET, "http://api.yelp.com/v2/search");
         request.addQuerystringParameter("term", term);
-        request.addQuerystringParameter("cll", latitude + "," + longitude);
+        request.addQuerystringParameter("radius", params[3]);
+        request.addQuerystringParameter("ll", latitude + "," + longitude);
         this.service.signRequest(this.accessToken, request);
+        Log.v("SEARCHTEST", request.toString());
+
+        //send query
         Response response = request.send();
-        return response;
+        return response.getBody();
     }
+
+    protected void onPostExecute(String response) {
+        try{
+            d("SEARCHTEST", response);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void d(String TAG, String message) {
+        int maxLogSize = 2000;
+        for(int i = 0; i <= message.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i+1) * maxLogSize;
+            end = end > message.length() ? message.length() : end;
+            Log.v(TAG, message.substring(start, end));
+        }
+    }
+
 }
