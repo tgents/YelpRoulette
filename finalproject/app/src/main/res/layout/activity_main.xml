@@ -37,7 +37,7 @@
         app:cpb_cornerRadius="48dp"
         app:cpb_textComplete="Finished Searching"
         app:cpb_textError="Error"
-        app:cpb_textIdle="  Hit Me with Favorites  "
+        app:cpb_textIdle="   Hit Me with Favorites   "
         android:layout_marginTop="10dp"
         android:id="@+id/favorites_search"
         android:layout_below="@+id/search_button"
