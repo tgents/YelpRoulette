@@ -14,38 +14,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/SearchBar"
+        android:id="@+id/search_bar"
         android:layout_marginBottom="@dimen/activity_vertical_margin">
 
         <EditText
-            android:id="@+id/SearchText"
+            android:id="@+id/search_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Search for Restaurant"
             android:layout_weight="3"
             style="@android:style/TextAppearance.Large"/>
         <Button
+            android:id="@+id/search_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="SEARCH"/>
     </LinearLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/TagLine"
-        android:layout_below="@+id/SearchBar">
+        android:id="@+id/tag_line"
+        android:layout_below="@+id/search_bar">
         <TextView
-            android:id="@+id/RestaurantName"
+            android:id="@+id/restaurant_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:text="@string/RestaurantName"
             style="@android:style/TextAppearance.Large"/>
         <ImageButton
-            android:id="@+id/FavoriteButton"
+            android:id="@+id/favorite_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -56,17 +56,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/TagLine"
+        android:layout_below="@id/tag_line"
         android:orientation="vertical">
         <RatingBar
-            android:id="@+id/RestaurantRating"
+            android:id="@+id/restaurant_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:stepSize="0.5"
             android:rating="3.5"
             android:isIndicator="true" />
         <ImageView
-            android:id="@+id/RestaurantImage"
+            android:id="@+id/restaurant_image"
             android:layout_width="match_parent"
             android:layout_height="450px"
             android:background="@color/cpb_red"/>
