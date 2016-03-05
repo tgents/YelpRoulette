@@ -15,4 +15,6 @@
         android:entries="@array/food_type"
         android:entryValues="@array/food_type"
         android:defaultValue="@array/pref_food_empty" />
+
+
 </PreferenceScreen>
