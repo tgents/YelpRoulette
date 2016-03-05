@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="stooges.three.finalproject">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -19,8 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".FavoritesActivity" />
-        <activity android:name=".RestaurantDetailActivity"/>
-        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".RestaurantDetailActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".AddToFavorites"></activity>
     </application>
 
 </manifest>

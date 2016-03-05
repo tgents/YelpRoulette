@@ -41,6 +41,8 @@
         android:layout_marginTop="10dp"
         android:id="@+id/favorites_search"
         android:layout_below="@+id/search_button"
+        app:cpb_selectorIdle="@drawable/idle_state"
+        app:cpb_colorIndicator="@color/cpb_green"
         android:layout_centerHorizontal="true" />
 
     <ImageButton
