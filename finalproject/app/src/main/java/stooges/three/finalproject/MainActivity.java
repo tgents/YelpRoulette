@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> image = new ArrayList<String>();
     ArrayList<String> address = new ArrayList<String>();
     ArrayList<String> url = new ArrayList<String>();
+    ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+
     final double lat = 47.655149;
     final double lon = -122.307947;
     final int dist = 8046;
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             String term = params[0];
             String latitude = params[1];
             String longitude = params[2];
+            String radius = params[3];
 
             //set up service
             this.service = new ServiceBuilder().provider(YelpApi2.class).apiKey(consumer).apiSecret(consumer_secret).build();
@@ -131,10 +134,9 @@ public class MainActivity extends AppCompatActivity {
             //make query and sign
             OAuthRequest request = new OAuthRequest(Verb.GET, "http://api.yelp.com/v2/search");
             request.addQuerystringParameter("term", term);
-            request.addQuerystringParameter("radius", params[3]);
+            request.addQuerystringParameter("radius", radius);
             request.addQuerystringParameter("ll", latitude + "," + longitude);
             this.service.signRequest(this.accessToken, request);
-            Log.v("SEARCHTEST", request.toString());
 
             //send query
             Response response = request.send();
@@ -151,21 +153,30 @@ public class MainActivity extends AppCompatActivity {
                 businesses = json.getJSONArray("businesses");
                 for(int i = 0; i < businesses.length(); i++) {
                     JSONObject rest = businesses.getJSONObject(i);
-                    names.add(rest.getString("name"));
-                    rating.add(rest.getString("rating_img_url"));
-                    image.add(rest.getString("image_url"));
-                    address.add(rest.getJSONObject("location").getString("display_address"));
-                    url.add(rest.getString("url"));
+                    String name = rest.getString("name");
+                    String rating = rest.getString("rating_img_url");
+                    String img = rest.getString("image_url");
+                    String address = rest.getJSONObject("location").getString("display_address");
+                    String yelpUrl = rest.getString("url");
+                    restaurants.add(new Restaurant(name, rating, img, address, yelpUrl));
+//                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
+//                    names.add(rest.getString("name"));
+//                    rating.add(rest.getString("rating_img_url"));
+//                    image.add(rest.getString("image_url"));
+//                    address.add(rest.getJSONObject("location").getString("display_address"));
+//                    url.add(rest.getString("url"));
                 }
                 //Log.v(TAG, names.get(0) + " " + rating.get(0) + " " + image.get(0) + " " + address.get(0));
 
                 //printResults("SEARCHTEST", response);
                 Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
-                intent.putExtra("names", names);
-                intent.putExtra("rating", rating);
-                intent.putExtra("image", image);
-                intent.putExtra("address", address);
-                intent.putExtra("url", url);
+                intent.putParcelableArrayListExtra("restaurants", restaurants);
+                intent.putExtra("restaurants", restaurants);
+//                intent.putExtra("names", names);
+//                intent.putExtra("rating", rating);
+//                intent.putExtra("image", image);
+//                intent.putExtra("address", address);
+//                intent.putExtra("url", url);
                 startActivity(intent);
 
             }
