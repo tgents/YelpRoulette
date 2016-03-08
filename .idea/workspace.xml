@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc28d5b2-ca48-4fb5-8e5c-835df2f7be2b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/DatabaseHelper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/hamburger.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/finalproject/app/src/main/res/drawable/hamburger.xml" />
+      <change type="DELETED" beforePath="C:\Users\user\Desktop\finalproject\finalproject\.idea\codeStyleSettings.xml" afterPath="" />
+      <change type="DELETED" beforePath="C:\Users\user\Desktop\finalproject\finalproject\.idea\encodings.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/finalproject/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/FavoritesActivity.java" afterPath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/FavoritesActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/MainActivity.java" afterPath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/RestaurantDetailActivity.java" afterPath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/RestaurantDetailActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/res/layout/activity_restaurant_detail.xml" afterPath="$PROJECT_DIR$/finalproject/app/src/main/res/layout/activity_restaurant_detail.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/res/layout/activity_favorites.xml" afterPath="$PROJECT_DIR$/finalproject/app/src/main/res/layout/activity_favorites.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/build.gradle" afterPath="$PROJECT_DIR$/finalproject/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/gradle.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/gradle.xml" />
     </list>
     <ignored path="finalproject.iws" />
     <ignored path=".idea/workspace.xml" />

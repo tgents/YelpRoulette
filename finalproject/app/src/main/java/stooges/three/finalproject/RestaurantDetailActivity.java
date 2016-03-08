@@ -68,5 +68,12 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        // code here to show dialog
+        super.onBackPressed();  // optional depending on your needs
+    }
 
 }
