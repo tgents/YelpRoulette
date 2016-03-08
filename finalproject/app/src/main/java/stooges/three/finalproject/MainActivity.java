@@ -3,7 +3,10 @@ package stooges.three.finalproject;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +39,8 @@ import org.scribe.oauth.OAuthService;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private static final String TAG = "MainActivity";
     CircularProgressButton maincircle;
@@ -42,15 +51,36 @@ public class MainActivity extends AppCompatActivity {
 //    ArrayList<String> address = new ArrayList<String>();
 //    ArrayList<String> url = new ArrayList<String>();
     ArrayList<Restaurant> restaurants;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
-    final double lat = 47.655149;
-    final double lon = -122.307947;
+    double lat = 0;
+    double lon = 0;
+//    double lat = 47.655149;
+//    double lon = -122.307947;
     final int dist = 8046;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Find location
+        // Create an instance of GoogleAPIClient.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        // Create the LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
 
         // declare initialize favorite button
         Button favBtn = (Button) findViewById(R.id.favs);
@@ -78,22 +108,31 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize Circular Progress Button
         maincircle = (CircularProgressButton) findViewById(R.id.search_button);
+        if(maincircle.isIndeterminateProgressMode()) {
+            maincircle.setIndeterminateProgressMode(false);
+            maincircle.setProgress(0);
+        }
 
         // Within this method, call the async task that connects to Yelp and pulls restaurant data
         maincircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (maincircle.isIndeterminateProgressMode()) {
+                if (maincircle.isIndeterminateProgressMode()  || maincircle.getProgress() != 0) {
                     maincircle.setIndeterminateProgressMode(false);
                     maincircle.setProgress(0);
                 } else {
-                    maincircle.setIndeterminateProgressMode(true);
-                    maincircle.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
-                    //Get the necessary information first from preferences, to make sure we are searching correctly.
-                    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                    String distance = sharedPref.getString("pref_distance", "");
-                    if(distance != "") new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
-                    else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
+                    if(lat == 0 || lon == 0) {
+                        Toast.makeText(MainActivity.this, "Location not found, is location turned on?", Toast.LENGTH_SHORT).show();
+                    } else {
+                        maincircle.setIndeterminateProgressMode(true);
+                        maincircle.setProgress(1); // set progress > 0 & < 100 to display indeterminate progress
+                        //Get the necessary information first from preferences, to make sure we are searching correctly.
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        String distance = sharedPref.getString("pref_distance", "");
+
+                        if(distance != "") new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
+                        else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
+                    }
                 }
             }
         });
@@ -137,6 +176,72 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "No Favorites stored!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (location == null) {
+            Log.v(TAG, "Location not found, either retrying or need to update");
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+        }
+        else {
+            handleNewLocation(location);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(this, 9000);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGoogleApiClient.isConnected()) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        handleNewLocation(location);
+    }
+
+
+    private void handleNewLocation(Location location) {
+        Log.d(TAG, location.toString());
+
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+        lat = currentLatitude;
+        lon = currentLatitude;
+        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
+
+    }
+
 
     public class YelpApi extends AsyncTask<String, Void, String> {
         private static final String API_HOST = "api.yelp.com";
@@ -185,6 +290,10 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject json = new JSONObject(response);
                 JSONArray businesses;
                 businesses = json.getJSONArray("businesses");
+                int count = businesses.length();
+                int starter = 1;
+
+                maincircle.setProgress(starter);
                 for(int i = 0; i < businesses.length(); i++) {
                     JSONObject rest = businesses.getJSONObject(i);
                     String name = rest.getString("name");
@@ -193,6 +302,8 @@ public class MainActivity extends AppCompatActivity {
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
                     restaurants.add(new Restaurant(name, rating, img, address, yelpUrl));
+                    starter += 99/count;
+                    maincircle.setProgress(starter);
 //                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
 //                    names.add(rest.getString("name"));
 //                    rating.add(rest.getString("rating_img_url"));
@@ -211,7 +322,10 @@ public class MainActivity extends AppCompatActivity {
 //                intent.putExtra("image", image);
 //                intent.putExtra("address", address);
 //                intent.putExtra("url", url);
+                maincircle.setProgress(99);
                 startActivity(intent);
+                maincircle.setProgress(0);
+
 
             }
             catch(Exception e){
@@ -231,7 +345,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    //In your class
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        maincircle.setIndeterminateProgressMode(false);
+//        //Retrieve data in the intent
+//        String editTextValue = intent.getStringExtra("valueId");
+    }
 
 }
 
