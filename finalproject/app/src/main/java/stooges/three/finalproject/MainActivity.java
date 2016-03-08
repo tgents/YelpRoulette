@@ -296,7 +296,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
                     restaurants.add(new Restaurant(name, rating, img, address, yelpUrl));
-<<<<<<< HEAD
                     starter += 99/count;
                     maincircle.setProgress(starter);
 //                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
@@ -305,11 +304,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                    image.add(rest.getString("image_url"));
 //                    address.add(rest.getJSONObject("location").getString("display_address"));
 //                    url.add(rest.getString("url"));
-=======
                     // testing: prints out restaurants from array list that we stored from the
                     // response from Yelp API
                     // Log.v(TAG, restaurants.get(restaurants.size() - 1) + "");
->>>>>>> 7c6da67b6f010c6fe88769b95f509065ac2660b1
                 }
 
                 // testing: prints out
@@ -319,16 +316,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // todo: Sean - is there a difference in below?
                 intent.putParcelableArrayListExtra("restaurants", restaurants);
                 intent.putExtra("restaurants", restaurants);
-<<<<<<< HEAD
 //                intent.putExtra("names", names);
 //                intent.putExtra("rating", rating);
 //                intent.putExtra("image", image);
 //                intent.putExtra("address", address);
 //                intent.putExtra("url", url);
                 maincircle.setProgress(99);
-=======
-
->>>>>>> 7c6da67b6f010c6fe88769b95f509065ac2660b1
                 startActivity(intent);
                 maincircle.setProgress(0);
 
