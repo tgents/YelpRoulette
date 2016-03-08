@@ -1,7 +1,5 @@
 package stooges.three.finalproject;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -13,12 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
@@ -247,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         private static final String API_HOST = "api.yelp.com";
         private static final String SEARCH_PATH = "/v2/search";
 
-        private static final String consumer = "7EPO_0MB-5XsfzeE5PpqRw";
+        private static final String consumer_key = "7EPO_0MB-5XsfzeE5PpqRw";
         private static final String consumer_secret = "5BYGwh_WC9AdJL6_dKFYr1JKCVc";
         private static final String token = "pXGPbhiaGJ7YiXADvT5uxSOSAFqGzKVy";
         private static final String token_secret = "NEIInw9KhCUBcu6s5qzYl6A5oUo";
@@ -263,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             String radius = params[3];
 
             // set up service
-            this.service = new ServiceBuilder().provider(YelpApi2.class).apiKey(consumer).apiSecret(consumer_secret).build();
+            this.service = new ServiceBuilder().provider(YelpApi2.class).apiKey(consumer_key).apiSecret(consumer_secret).build();
             this.accessToken = new Token(token, token_secret);
 
             // make query and sign
@@ -302,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
                     restaurants.add(new Restaurant(name, rating, img, address, yelpUrl));
+<<<<<<< HEAD
                     starter += 99/count;
                     maincircle.setProgress(starter);
 //                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
@@ -310,19 +305,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //                    image.add(rest.getString("image_url"));
 //                    address.add(rest.getJSONObject("location").getString("display_address"));
 //                    url.add(rest.getString("url"));
+=======
+                    // testing: prints out restaurants from array list that we stored from the
+                    // response from Yelp API
+                    // Log.v(TAG, restaurants.get(restaurants.size() - 1) + "");
+>>>>>>> 7c6da67b6f010c6fe88769b95f509065ac2660b1
                 }
-                //Log.v(TAG, names.get(0) + " " + rating.get(0) + " " + image.get(0) + " " + address.get(0));
 
-                //printResults("SEARCHTEST", response);
+                // testing: prints out
+                // printResults("SEARCHTEST", response);
+
                 Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
+                // todo: Sean - is there a difference in below?
                 intent.putParcelableArrayListExtra("restaurants", restaurants);
                 intent.putExtra("restaurants", restaurants);
+<<<<<<< HEAD
 //                intent.putExtra("names", names);
 //                intent.putExtra("rating", rating);
 //                intent.putExtra("image", image);
 //                intent.putExtra("address", address);
 //                intent.putExtra("url", url);
                 maincircle.setProgress(99);
+=======
+
+>>>>>>> 7c6da67b6f010c6fe88769b95f509065ac2660b1
                 startActivity(intent);
                 maincircle.setProgress(0);
 
