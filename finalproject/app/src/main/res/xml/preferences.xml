@@ -16,5 +16,12 @@
         android:entryValues="@array/food_type"
         android:defaultValue="@array/pref_food_empty" />
 
+    <EditTextPreference
+        android:key="pref_favorites"
+        android:title="Favorites"
+        android:summary="List of favorites : Do not edit"
+        android:defaultValue="" />
+
+
 
 </PreferenceScreen>

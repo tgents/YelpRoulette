@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button favBtn = (Button) findViewById(R.id.favs);
         favBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +105,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Parse through the favorites in the preference screen to see if they have any favorites
+        //if they don't have more than 2 favorites, don't display the hit me with favorites button
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String favorites = sharedPref.getString("pref_favorites", "Error");
+        if(!favorites.equals("Error")) {
+            //Means there is favorites. Decide how to separate each restaurant first. We can use | for now
+            String[] restlist = favorites.split("|");
+            if (restlist.length > 1) {
+                favcircle.setVisibility(View.VISIBLE);
+            }
+        } else {
+            favcircle.setVisibility(View.GONE);
+        }
     }
 
     public class YelpApi extends AsyncTask<String, Void, String> {
