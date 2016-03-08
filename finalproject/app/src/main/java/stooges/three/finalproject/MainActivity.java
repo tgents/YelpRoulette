@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     CircularProgressButton maincircle;
     CircularProgressButton favcircle;
-    ArrayList<String> names = new ArrayList<String>();
-    ArrayList<String> rating = new ArrayList<String>();
-    ArrayList<String> image = new ArrayList<String>();
-    ArrayList<String> address = new ArrayList<String>();
-    ArrayList<String> url = new ArrayList<String>();
-    ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+//    ArrayList<String> names = new ArrayList<String>();
+//    ArrayList<String> rating = new ArrayList<String>();
+//    ArrayList<String> image = new ArrayList<String>();
+//    ArrayList<String> address = new ArrayList<String>();
+//    ArrayList<String> url = new ArrayList<String>();
+    ArrayList<Restaurant> restaurants;
 
     final double lat = 47.655149;
     final double lon = -122.307947;
@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
             try{
                 //insert the information into the arraylist. Should be passed to restaurant activity
                 //through an intent, along with all the necessary information. The characters can be parsed there.
+
+                restaurants = new ArrayList<Restaurant>();
 
                 JSONObject json = new JSONObject(response);
                 JSONArray businesses;
