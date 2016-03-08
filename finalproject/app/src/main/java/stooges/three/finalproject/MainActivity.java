@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         maincircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Finding restaurant...", Toast.LENGTH_SHORT).show();
                 if (maincircle.isIndeterminateProgressMode()) {
                     maincircle.setIndeterminateProgressMode(false);
                     maincircle.setProgress(0);
