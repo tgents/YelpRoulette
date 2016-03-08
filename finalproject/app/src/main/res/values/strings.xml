@@ -31,6 +31,8 @@
     <string name="Favorites">Favorites</string>
 
 </string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="consumer">7EPO_0MB-5XsfzeE5PpqRw</string>
+    <string name="consumer_secret">5BYGwh_WC9AdJL6_dKFYr1JKCVc</string>
+    <string name="token">pXGPbhiaGJ7YiXADvT5uxSOSAFqGzKVy</string>
+    <string name="token_secret">NEIInw9KhCUBcu6s5qzYl6A5oUo</string>
 </resources>
