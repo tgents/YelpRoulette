@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
@@ -98,8 +99,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Within this method, call the async task that will pull restaurant from favorites list
-        // TODO: 3/8/2016 Create intent and start Favorites List Activity
         favcircle = (CircularProgressButton) findViewById(R.id.favorites_search);
+        // TODO: 3/8/2016 Create intent and start Favorites List Activity
         favcircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,18 +114,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // todo: Sean's question - what is this (below) doing here?
+        // todo: to me, this just checks if there's anything in favorites list (regardless of user
+        // todo: input, and shows the fav circle?? Wouldn't we want it to show when the favorites
+        // todo: button is pressed? Or is that what's happening and I don't see it?
         // Parse through the favorites in the preference screen to see if they have any favorites
         // if they don't have more than 2 favorites, don't display the hit me with favorites button
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        // todo: Sean's question - where and when is pref_favorites stored in shared pref with data?
+        // todo: in what form? arraylist?
         String favorites = sharedPref.getString("pref_favorites", "Error");
         if(!favorites.equals("Error")) {
             // Means there is favorites. Decide how to separate each restaurant first. We can use | for now
             String[] restlist = favorites.split("|");
             if (restlist.length > 1) {
+                // shows loading
                 favcircle.setVisibility(View.VISIBLE);
             }
         } else {
             favcircle.setVisibility(View.GONE);
+            // notification for user to let them know that there are no favorites
+            Toast.makeText(MainActivity.this, "No Favorites stored!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,26 +157,28 @@ public class MainActivity extends AppCompatActivity {
             String longitude = params[2];
             String radius = params[3];
 
-            //set up service
+            // set up service
             this.service = new ServiceBuilder().provider(YelpApi2.class).apiKey(consumer).apiSecret(consumer_secret).build();
             this.accessToken = new Token(token, token_secret);
 
-            //make query and sign
+            // make query and sign
             OAuthRequest request = new OAuthRequest(Verb.GET, "http://api.yelp.com/v2/search");
             request.addQuerystringParameter("term", term);
             request.addQuerystringParameter("radius", radius);
             request.addQuerystringParameter("ll", latitude + "," + longitude);
             this.service.signRequest(this.accessToken, request);
 
-            //send query
+            // send query
             Response response = request.send();
             return response.getBody();
         }
 
         protected void onPostExecute(String response) {
             try{
-                //insert the information into the arraylist. Should be passed to restaurant activity
-                //through an intent, along with all the necessary information. The characters can be parsed there.
+                // todo: Sean cmt - insert what information? be specific
+                // insert the information into the arraylist. Should be passed to restaurant activity
+                // through an intent, along with all the necessary information. The characters can be parsed there.
+                // todo: what characters? ^
 
                 restaurants = new ArrayList<Restaurant>();
 
