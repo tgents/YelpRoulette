@@ -58,6 +58,6 @@
         android:id="@+id/favs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="thomasbutton"/>
+        android:text="Favorites"/>
 
 </RelativeLayout>

@@ -51,14 +51,14 @@ public class YelpApi extends AsyncTask<String, Void, String> {
 
     protected void onPostExecute(String response) {
         try{
-            d("SEARCHTEST", response);
+            printResults("SEARCHTEST", response);
         }
         catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public static void d(String TAG, String message) {
+    public static void printResults(String TAG, String message) {
         int maxLogSize = 2000;
         for(int i = 0; i <= message.length() / maxLogSize; i++) {
             int start = i * maxLogSize;
