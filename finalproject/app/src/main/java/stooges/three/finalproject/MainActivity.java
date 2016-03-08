@@ -42,11 +42,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final String TAG = "MainActivity";
     CircularProgressButton mainCircle;
     CircularProgressButton favcircle;
-//    ArrayList<String> names = new ArrayList<String>();
-//    ArrayList<String> rating = new ArrayList<String>();
-//    ArrayList<String> image = new ArrayList<String>();
-//    ArrayList<String> address = new ArrayList<String>();
-//    ArrayList<String> url = new ArrayList<String>();
     ArrayList<Restaurant> restaurants;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -149,15 +144,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-        // todo: Sean's question - what is this (below) doing here?
-        // todo: to me, this just checks if there's anything in favorites list (regardless of user
-        // todo: input, and shows the fav circle?? Wouldn't we want it to show when the favorites
-        // todo: button is pressed? Or is that what's happening and I don't see it?
         // Parse through the favorites in the preference screen to see if they have any favorites
         // if they don't have more than 2 favorites, don't display the hit me with favorites button
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        // todo: Sean's question - where and when is pref_favorites stored in shared pref with data?
-        // todo: in what form? arraylist?
         String favorites = sharedPref.getString("pref_favorites", "Error");
         if(!favorites.equals("Error")) {
             // Means there is favorites. Decide how to separate each restaurant first. We can use | for now
@@ -303,10 +292,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         protected void onPostExecute(String response) {
             try{
-                // todo: Sean cmt - insert what information? be specific
                 // insert the information into the arraylist. Should be passed to restaurant activity
                 // through an intent, along with all the necessary information. The characters can be parsed there.
-                // todo: what characters? ^
 
                 restaurants = new ArrayList<Restaurant>();
 
@@ -385,13 +372,3 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 }
 
 //Instructions for messing with the circular button: https://github.com/dmytrodanylyk/circular-progress-button/wiki/User-Guide
-
-//Spinner spinner = (Spinner) findViewById(R.id.filter_distance);
-//// Create an ArrayAdapter using the string array and a default spinner layout
-//ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//        R.array.distance, android.R.layout.simple_spinner_item);
-//// Specify the layout to use when the list of choices appears
-//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        // Apply the adapter to the spinner
-//        spinner.setAdapter(adapter);
-//        spinner.setOnItemSelectedListener(this);
