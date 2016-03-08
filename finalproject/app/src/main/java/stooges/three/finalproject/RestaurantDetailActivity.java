@@ -31,7 +31,16 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             Log.v(TAG, r.toString());
         }
         Log.v(TAG, "Intent was received. Can begin inserting information onto screen");
+
+
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        // code here to show dialog
+        super.onBackPressed();  // optional depending on your needs
+    }
 
 }

@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc28d5b2-ca48-4fb5-8e5c-835df2f7be2b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/YelpApi.java" afterPath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/YelpApi.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/compiler.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/encodings.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/gradle.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/misc.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/modules.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/runConfigurations.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/runConfigurations.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/.idea/vcs.xml" afterPath="$PROJECT_DIR$/finalproject/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/MainActivity.java" afterPath="$PROJECT_DIR$/finalproject/app/src/main/java/stooges/three/finalproject/MainActivity.java" />
     </list>
     <ignored path="finalproject.iws" />
     <ignored path=".idea/workspace.xml" />
