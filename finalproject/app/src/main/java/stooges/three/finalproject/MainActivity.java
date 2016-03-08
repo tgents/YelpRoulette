@@ -51,37 +51,41 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // declare initialize favorite button
         Button favBtn = (Button) findViewById(R.id.favs);
         favBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // starts Favorite Activity via intent
                 Intent intent = new Intent(MainActivity.this, FavoritesActivity.class);
                 startActivity(intent);
+                // specifies an explicit transition animation to perform next.
                 overridePendingTransition(0, 0);
             }
         });
 
+        // declare and initialize settings button
         ImageButton button = (ImageButton) findViewById(R.id.settings_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // starts Settings Activity via intent
                 Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(i);
             }
         });
 
+        // initialize Circular Progress Button
         maincircle = (CircularProgressButton) findViewById(R.id.search_button);
+
+        // Within this method, call the async task that connects to Yelp and pulls restaurant data
         maincircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Within this method, call the async task that connects to Yelp and pulls restaurant data
                 if (maincircle.isIndeterminateProgressMode()) {
-
                     maincircle.setIndeterminateProgressMode(false);
                     maincircle.setProgress(0);
                 } else {
-
                     maincircle.setIndeterminateProgressMode(true);
                     maincircle.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
                     //Get the necessary information first from preferences, to make sure we are searching correctly.
@@ -93,11 +97,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Within this method, call the async task that will pull restaurant from favorites list
+        // TODO: 3/8/2016 Create intent and start Favorites List Activity
         favcircle = (CircularProgressButton) findViewById(R.id.favorites_search);
         favcircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Within this method, call the async task that will pull restaurant from favorites list
                 if(favcircle.isIndeterminateProgressMode()) {
                     favcircle.setIndeterminateProgressMode(false);
                     favcircle.setProgress(0);
@@ -108,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Parse through the favorites in the preference screen to see if they have any favorites
-        //if they don't have more than 2 favorites, don't display the hit me with favorites button
+        // Parse through the favorites in the preference screen to see if they have any favorites
+        // if they don't have more than 2 favorites, don't display the hit me with favorites button
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String favorites = sharedPref.getString("pref_favorites", "Error");
         if(!favorites.equals("Error")) {
-            //Means there is favorites. Decide how to separate each restaurant first. We can use | for now
+            // Means there is favorites. Decide how to separate each restaurant first. We can use | for now
             String[] restlist = favorites.split("|");
             if (restlist.length > 1) {
                 favcircle.setVisibility(View.VISIBLE);
