@@ -118,7 +118,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         //Get the necessary information first from preferences, to make sure we are searching correctly.
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         String distance = sharedPref.getString("pref_distance", "");
-                        Log.v(TAG, distance);
+//                        Log.v(TAG, distance);
+//                        Log.v(TAG, "latlon:" + lat + "," +lon);
                         new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
 //                        if (distance != "")
 //                            new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
@@ -243,15 +244,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
     private void handleNewLocation(Location location) {
-        Log.d(TAG, location.toString());
+//        Log.d(TAG, location.toString());
 
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         lat = currentLatitude;
-        lon = currentLatitude;
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
-
-
+        lon = currentLongitude;
+//        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
     }
 
 
@@ -297,6 +296,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 restaurants = new ArrayList<Restaurant>();
 
+//                // testing: prints out
+//                printResults("SEARCHTEST", response);
+
                 JSONObject json = new JSONObject(response);
                 JSONArray businesses;
                 businesses = json.getJSONArray("businesses");
@@ -306,15 +308,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mainCircle.setProgress(starter);
                 for(int i = 0; i < businesses.length(); i++) {
                     JSONObject rest = businesses.getJSONObject(i);
+                    String id = rest.getString("id");
                     String name = rest.getString("name");
                     String rating = rest.getString("rating_img_url");
                     String img = rest.getString("image_url");
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
                     String categories = rest.getString("categories");
-                    // test
-                    Log.v(TAG, categories);
-                    restaurants.add(new Restaurant(name, rating, img, address, yelpUrl, categories));
+//                    // test
+//                    Log.v(TAG, categories);
+                    restaurants.add(new Restaurant(id, name, rating, img, address, yelpUrl, categories));
                     starter += 99/count;
                     mainCircle.setProgress(starter);
 //                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
@@ -328,13 +331,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     // Log.v(TAG, restaurants.get(restaurants.size() - 1) + "");
                 }
 
-                // testing: prints out
-                // printResults("SEARCHTEST", response);
+//                //add some favorites for testing
+//                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+//                for(int i = 0; i < 5; i ++){
+//                    db.insertRestaurant(restaurants.get(i));
+//                }
 
                 Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
-                // todo: Sean - is there a difference in below?
-                Log.v(TAG+"Application", getApplicationContext().toString());
-                intent.putParcelableArrayListExtra("restaurants", restaurants);
+//                Log.v(TAG+"Application", getApplicationContext().toString());
+//                intent.putParcelableArrayListExtra("restaurants", restaurants);
                 intent.putExtra("restaurants", restaurants);
 //                intent.putExtra("names", names);
 //                intent.putExtra("rating", rating);

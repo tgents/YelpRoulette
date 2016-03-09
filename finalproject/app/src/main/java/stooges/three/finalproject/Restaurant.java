@@ -8,31 +8,6 @@ import android.os.Parcelable;
  */
 public class Restaurant implements Parcelable {
 
-    public String name;
-    public String rating;
-    public String imageUrl;
-    public String address;
-    public String yelpUrl;
-    public String categories;
-
-    public Restaurant(String name, String rate, String img, String addr, String yelp, String cat){
-        this.name = name;
-        this.rating = rate;
-        this.imageUrl = img;
-        this.address = addr;
-        this.yelpUrl = yelp;
-        this.categories = cat;
-    }
-
-    private Restaurant(Parcel in) {
-        this.name = in.readString();
-        this.rating = in.readString();
-        this.imageUrl = in.readString();
-        this.address = in.readString();
-        this.yelpUrl = in.readString();
-        this.categories = in.readString();
-    }
-
     public static final Parcelable.Creator<Restaurant> CREATOR
             = new Parcelable.Creator<Restaurant>() {
         public Restaurant createFromParcel(Parcel in) {
@@ -44,9 +19,37 @@ public class Restaurant implements Parcelable {
         }
     };
 
+    public String id;
+    public String name;
+    public String rating;
+    public String imageUrl;
+    public String address;
+    public String yelpUrl;
+    public String categories;
+
+    public Restaurant(String id, String name, String rate, String img, String addr, String yelp, String cat) {
+        this.id = id;
+        this.name = name;
+        this.rating = rate;
+        this.imageUrl = img;
+        this.address = addr;
+        this.yelpUrl = yelp;
+        this.categories = cat;
+    }
+
+    private Restaurant(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.rating = in.readString();
+        this.imageUrl = in.readString();
+        this.address = in.readString();
+        this.yelpUrl = in.readString();
+        this.categories = in.readString();
+    }
+
     @Override
     public String toString() {
-        return name + " " + rating + " " + imageUrl + " " + address + " " + yelpUrl + " " + categories;
+        return id + "," + name + "," + rating + "," + imageUrl + "," + address + "," + yelpUrl + "," + categories;
     }
 
     @Override
@@ -56,6 +59,7 @@ public class Restaurant implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.rating);
         dest.writeString(this.imageUrl);
