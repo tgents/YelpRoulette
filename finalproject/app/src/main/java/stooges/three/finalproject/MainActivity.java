@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
                 // todo: Sean - is there a difference in below?
+                Log.v(TAG+"Application", getApplicationContext().toString());
                 intent.putParcelableArrayListExtra("restaurants", restaurants);
                 intent.putExtra("restaurants", restaurants);
 //                intent.putExtra("names", names);

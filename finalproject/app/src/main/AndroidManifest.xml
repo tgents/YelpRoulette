@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".FavoritesActivity" />
-        <activity android:name=".RestaurantDetailActivity" />
+        <activity android:name=".RestaurantDetailActivity" android:screenOrientation="portrait" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".AddToFavorites" />
     </application>

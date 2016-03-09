@@ -30,12 +30,18 @@ import java.util.Random;
 public class RestaurantDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "RestaurantActivity";
-    CircularProgressButton rollAgainButton;
 
+    // XML elements
+    CircularProgressButton rollAgainButton;
     TextView restaurantNameTextView;
     ImageView restaurantRatingImageView;
     ImageView restaurantImageView;
     TextView restaurantCategoriesTextView;
+
+    // global variables
+    int restaurantSize;
+    Random r = new Random();
+    ArrayList<Restaurant> restaurants;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,29 +50,23 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         // Information for restaurants are in this. They are "name", "address", "image", "url", and "rating"
         Intent intent = getIntent();
-        ArrayList<Restaurant> restaurants = (ArrayList<Restaurant>) intent.getExtras().get("restaurants");
-        // loop through restaurants
-//        for(Restaurant r : restaurants){
-//            Log.v(TAG, r.toString());
-//        }
-        generatesRestaurantSetsView(restaurants);
+        restaurants = (ArrayList<Restaurant>) intent.getExtras().get("restaurants");
+        restaurantSize = restaurants.size();
+
+        generatesRestaurantSetsView();
         setUpRollButton();
-
-//        Log.v(TAG, "Intent was received. Can begin inserting information onto screen");
-
     }
 
-    private void generatesRestaurantSetsView(ArrayList<Restaurant> restaurants) {
-        Random r = new Random();
+    private void generatesRestaurantSetsView() {
         // r.nextInt returns random integer from 0 to n (exclusive)
-        int randomNum = r.nextInt(restaurants.size());
+        Random r = new Random();
+        int randomNum = r.nextInt(restaurantSize);
 
         Restaurant generated = restaurants.get(randomNum);
         String name = generated.name;
         String ratingUrl = generated.rating;
         String imageUrl = generated.imageUrl;
         String categories = generated.categories;
-//        String categories = generated.categories;
 
         restaurantNameTextView = (TextView)findViewById(R.id.restaurant_name);
         restaurantNameTextView.setText(name);
@@ -92,10 +92,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     }
 
     private void setUpRollButton() {
-        // hard coded coordinates, will replace with location services
-        final double lat = 47.655149;
-        final double lon = -122.307947;
-        final int dist = 8046;
         // initialize Circular Progress Button
         rollAgainButton = (CircularProgressButton) findViewById(R.id.search_button);
 
@@ -104,28 +100,17 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             rollAgainButton.setProgress(0);
         }
 
+        final Random r = new Random();
+
         // Within this method, call the async task that connects to Yelp and pulls restaurant data
         rollAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RestaurantDetailActivity.this, "Finding restaurant...", Toast.LENGTH_SHORT).show();
                 if (rollAgainButton.isIndeterminateProgressMode() || rollAgainButton.getProgress() != 0) {
                     rollAgainButton.setIndeterminateProgressMode(false);
                     rollAgainButton.setProgress(0);
                 } else {
-                    if (lat == 0 || lon == 0) {
-                        Toast.makeText(RestaurantDetailActivity.this, "Location not found, is location turned on?", Toast.LENGTH_SHORT).show();
-                    } else {
-                        rollAgainButton.setIndeterminateProgressMode(true);
-                        rollAgainButton.setProgress(1); // set progress > 0 & < 100 to display indeterminate progress
-                        //Get the necessary information first from preferences, to make sure we are searching correctly.
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        String distance = sharedPref.getString("pref_distance", "");
-
-                        if (distance != "")
-                            new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
-                        else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
-                    }
+                    generatesRestaurantSetsView();
                 }
             }
         });
