@@ -57,22 +57,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tag_line"
         android:orientation="vertical">
-        <RatingBar
+        <ImageView
             android:id="@+id/restaurant_rating"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:stepSize="0.5"
-            android:rating="3.5"
-            android:isIndicator="true" />
+            android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/restaurant_image"
             android:layout_width="match_parent"
-            android:layout_height="450px"
-            android:background="@color/cpb_red"/>
+            android:layout_height="300dp" />
         <TextView
+            android:id="@+id/restaurant_category"
             android:layout_width="match_parent"
-            android:layout_height="300px"
-            android:background="@color/cpb_blue"
+            android:layout_height="300dp"
             android:text="@string/lorem"
             android:lineSpacingMultiplier="1.5"
             android:padding="@dimen/activity_horizontal_margin"/>

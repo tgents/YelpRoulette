@@ -6,7 +6,6 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -41,16 +40,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private static final String TAG = "MainActivity";
-    CircularProgressButton maincircle;
+    CircularProgressButton mainCircle;
     CircularProgressButton favcircle;
     ArrayList<Restaurant> restaurants;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
 
-    double lat = 0;
-    double lon = 0;
-//    double lat = 47.655149;
-//    double lon = -122.307947;
+//    double lat = 0;
+//    double lon = 0;
+    double lat = 47.655149;
+    double lon = -122.307947;
     final int dist = 8046;
 
     @Override
@@ -100,27 +99,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         });
 
         // initialize Circular Progress Button
-        maincircle = (CircularProgressButton) findViewById(R.id.search_button);
+        mainCircle = (CircularProgressButton) findViewById(R.id.search_button);
 
 
         // Within this method, call the async task that connects to Yelp and pulls restaurant data
-        maincircle.setOnClickListener(new View.OnClickListener() {
+        mainCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (maincircle.isIndeterminateProgressMode()  || maincircle.getProgress() != 0) {
-                    maincircle.setIndeterminateProgressMode(false);
-                    maincircle.setProgress(0);
+                if (mainCircle.isIndeterminateProgressMode() || mainCircle.getProgress() != 0) {
+                    mainCircle.setIndeterminateProgressMode(false);
+                    mainCircle.setProgress(0);
                 } else {
-                    if(lat == 0 || lon == 0) {
+                    if (lat == 0 || lon == 0) {
                         Toast.makeText(MainActivity.this, "Location not found, is location turned on?", Toast.LENGTH_SHORT).show();
                     } else {
-                        maincircle.setIndeterminateProgressMode(true);
-                        maincircle.setProgress(1); // set progress > 0 & < 100 to display indeterminate progress
+                        mainCircle.setIndeterminateProgressMode(true);
+                        mainCircle.setProgress(1); // set progress > 0 & < 100 to display indeterminate progress
                         //Get the necessary information first from preferences, to make sure we are searching correctly.
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         String distance = sharedPref.getString("pref_distance", "");
-                        if(distance != "") new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
-                        else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
+                        Log.v(TAG, distance);
+                        new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
+//                        if (distance != "")
+//                            new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
+//                        else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
                     }
                 }
             }
@@ -301,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 int count = businesses.length();
                 int starter = 1;
 
-                maincircle.setProgress(starter);
+                mainCircle.setProgress(starter);
                 for(int i = 0; i < businesses.length(); i++) {
                     JSONObject rest = businesses.getJSONObject(i);
                     String name = rest.getString("name");
@@ -309,9 +311,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String img = rest.getString("image_url");
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
-                    restaurants.add(new Restaurant(name, rating, img, address, yelpUrl));
+                    String categories = rest.getString("categories");
+                    // test
+                    Log.v(TAG, categories);
+                    restaurants.add(new Restaurant(name, rating, img, address, yelpUrl, categories));
                     starter += 99/count;
-                    maincircle.setProgress(starter);
+                    mainCircle.setProgress(starter);
+//                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
+//                    names.add(rest.getString("name"));
+//                    rating.add(rest.getString("rating_img_url"));
+//                    image.add(rest.getString("image_url"));
+//                    address.add(rest.getJSONObject("location").getString("display_address"));
+//                    url.add(rest.getString("url"));
+                    // testing: prints out restaurants from array list that we stored from the
+                    // response from Yelp API
                     // Log.v(TAG, restaurants.get(restaurants.size() - 1) + "");
                 }
 
@@ -322,11 +335,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 // todo: Sean - is there a difference in below?
                 intent.putParcelableArrayListExtra("restaurants", restaurants);
                 intent.putExtra("restaurants", restaurants);
-                maincircle.setProgress(99);
+//                intent.putExtra("names", names);
+//                intent.putExtra("rating", rating);
+//                intent.putExtra("image", image);
+//                intent.putExtra("address", address);
+//                intent.putExtra("url", url);
+                mainCircle.setProgress(99);
                 startActivity(intent);
-                maincircle.setProgress(0);
-
-
+                mainCircle.setProgress(0);
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -349,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        maincircle.setIndeterminateProgressMode(false);
+        mainCircle.setIndeterminateProgressMode(false);
 //        //Retrieve data in the intent
 //        String editTextValue = intent.getStringExtra("valueId");
     }

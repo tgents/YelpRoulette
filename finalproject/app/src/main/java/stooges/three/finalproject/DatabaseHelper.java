@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
@@ -35,6 +37,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
         this.db = db;
+    }
+
+    public Cursor getAllFavorites(){
+        db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from table", null);
+        return cursor;
     }
 
     public String insertRestaurant(Restaurant r) {
