@@ -49,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    //inserts the given restaurant into the favorites table
     public String insertRestaurant(Restaurant r) {
         // Checking to see if input ID is already stored in the database
         db = this.getWritableDatabase();
@@ -69,6 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return "New favorite added";
     }
 
+    //removes the restaurant based on the given id and name
     public int removeFavorite(String id, String name){
         db = this.getWritableDatabase();
         Log.v("db", "before remove");

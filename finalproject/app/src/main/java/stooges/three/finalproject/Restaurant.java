@@ -27,6 +27,7 @@ public class Restaurant implements Parcelable {
     public String yelpUrl;
     public String categories;
 
+    //constructor with given info
     public Restaurant(String id, String name, String rate, String img, String addr, String yelp, String cat) {
         this.id = id;
         this.name = name;
@@ -37,6 +38,7 @@ public class Restaurant implements Parcelable {
         this.categories = cat;
     }
 
+    //private constructer that creates a Restaurant from a given parcel
     private Restaurant(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();

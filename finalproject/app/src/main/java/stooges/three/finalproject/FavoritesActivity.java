@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -40,6 +41,10 @@ public class FavoritesActivity extends AppCompatActivity {
                 for (Favorite f : favorites) {
                     if (f.isChecked) {
                         int temp = favdb.removeFavorite(f.id, f.name);
+                        if(temp > 0){
+                            Toast.makeText(FavoritesActivity.this, f.name + " successfully removed.", Toast.LENGTH_SHORT).show();
+                        }
+                        //refresh favorites list
                         getFavorites();
                     }
                 }
@@ -47,9 +52,9 @@ public class FavoritesActivity extends AppCompatActivity {
         });
 
         getFavorites();
-
     }
 
+    //populates the current favorites
     private void getFavorites(){
         Cursor cursor = favdb.getAllFavorites();
         favorites = new ArrayList<Favorite>();
@@ -78,6 +83,7 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+    //stores favorite info
     private class Favorite {
         public String id;
         public String name;
@@ -95,6 +101,7 @@ public class FavoritesActivity extends AppCompatActivity {
         }
     }
 
+    //custom adapter for favorites list
     private class FavoriteAdapter extends ArrayAdapter<Favorite> {
         private ArrayList<Favorite> favList;
         private Context context;
