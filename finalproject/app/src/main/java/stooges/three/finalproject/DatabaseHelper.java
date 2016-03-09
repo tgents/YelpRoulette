@@ -41,7 +41,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Cursor getAllFavorites(){
         db = this.getReadableDatabase();
-        ArrayList<FavoritesActivity.Favorite> al = new ArrayList<FavoritesActivity.Favorite>();
         Cursor cursor = db.rawQuery("select * from table", null);
         return cursor;
     }

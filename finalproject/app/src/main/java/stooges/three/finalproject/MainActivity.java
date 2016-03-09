@@ -1,12 +1,16 @@
 package stooges.three.finalproject;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,10 +106,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         // initialize Circular Progress Button
         maincircle = (CircularProgressButton) findViewById(R.id.search_button);
-        if(maincircle.isIndeterminateProgressMode()) {
-            maincircle.setIndeterminateProgressMode(false);
-            maincircle.setProgress(0);
-        }
+
 
         // Within this method, call the async task that connects to Yelp and pulls restaurant data
         maincircle.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         //Get the necessary information first from preferences, to make sure we are searching correctly.
                         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         String distance = sharedPref.getString("pref_distance", "");
-
                         if(distance != "") new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
                         else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
                     }
@@ -169,19 +169,46 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             // notification for user to let them know that there are no favorites
             Toast.makeText(MainActivity.this, "No Favorites stored!", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location == null) {
-            Log.v(TAG, "Location not found, either retrying or need to update");
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if(permission == PackageManager.PERMISSION_GRANTED){
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (location == null) {
+                Log.v(TAG, "Location not found, either retrying or need to update");
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+            }
+            else {
+                handleNewLocation(location);
+            }
+        }
+        else{
+            //if(ActivityCompat.shouldShowRequestPermissionRationale(...))
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode){
+            case 1: { //if asked for location
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    onConnected(null); //should work :/
+                }
+            }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         }
-        else {
-            handleNewLocation(location);
-        }
+
     }
 
     @Override

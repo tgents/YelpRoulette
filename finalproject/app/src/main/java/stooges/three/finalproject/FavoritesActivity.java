@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,9 @@ public class FavoritesActivity extends AppCompatActivity {
             }
         });
 
-        dataAdapter = new FavoriteAdapter(this,R.layout.fav_detail, favorites);
+
+        //dataAdapter = new FavoriteAdapter(this, R.layout.fav_detail, favorites);
+
         ListView listView = (ListView) findViewById(R.id.favlist);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
@@ -51,90 +54,29 @@ public class FavoritesActivity extends AppCompatActivity {
 
     }
 
-    private class Favorite{
+    private class Favorite {
         public String id;
         public String name;
 
-        public Favorite(String i, String na){
+        public Favorite(String i, String na) {
             id = i;
             name = na;
-    }
-
-    private class FavoriteAdapter extends ArrayAdapter<Favorite> {
-
-        private ArrayList<Favorite> countryList;
-
-        public FavoriteAdapter(Context context, int textViewResourceId,
-                               ArrayList<Favorite> countryList) {
-            super(context, textViewResourceId, countryList);
-            this.countryList = new ArrayList<Favorite>();
-            this.countryList.addAll(countryList);
-        }
-
-        private class ViewHolder {
-            TextView code;
-            CheckBox name;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
-
-            if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.fav_detail, null);
-
-                holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
-                holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
-                convertView.setTag(holder);
-
-                holder.name.setOnClickListener( new View.OnClickListener() {
-                    public void onClick(View v) {
-                    }
-                });
-            }
-            else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
-
-
-            return convertView;
-
+        public String toString() {
+            return name;
         }
-
     }
 
-    private void checkButtonClick() {
-
-        Button myButton = (Button) findViewById(R.id.findSelected);
-        myButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
-
-                ArrayList<Favorite> countryList = dataAdapter.countryList;
-                for(int i=0;i<countryList.size();i++){
-                    Country country = countryList.get(i);
-                    if(country.isSelected()){
-                        responseText.append("\n" + country.getName());
-                    }
-                }
-
-                Toast.makeText(getApplicationContext(),
-                        responseText, Toast.LENGTH_LONG).show();
-
-            }
-        });
-
+    private class FavoriteAdapter extends ArrayAdapter<Favorite>{
+        private ArrayList<Favorite> favList;
+        public FavoriteAdapter(Context context, int textViewResourceId,
+                               ArrayList<Favorite> countryList) {
+            super(context, textViewResourceId, countryList);
+            this.favList = new ArrayList<Favorite>();
+            this.favList.addAll(countryList);
+        }
     }
 
-}
 }
