@@ -13,13 +13,15 @@ public class Restaurant implements Parcelable {
     public String imageUrl;
     public String address;
     public String yelpUrl;
+    public String categories;
 
-    public Restaurant(String name, String rate, String img, String addr, String yelp){
+    public Restaurant(String name, String rate, String img, String addr, String yelp, String cat){
         this.name = name;
         this.rating = rate;
         this.imageUrl = img;
         this.address = addr;
         this.yelpUrl = yelp;
+        this.categories = cat;
     }
 
     private Restaurant(Parcel in) {
@@ -28,6 +30,7 @@ public class Restaurant implements Parcelable {
         this.imageUrl = in.readString();
         this.address = in.readString();
         this.yelpUrl = in.readString();
+        this.categories = in.readString();
     }
 
     public static final Parcelable.Creator<Restaurant> CREATOR
@@ -43,7 +46,7 @@ public class Restaurant implements Parcelable {
 
     @Override
     public String toString() {
-        return name + " " + rating + " " + imageUrl + " " + address + " " + yelpUrl;
+        return name + " " + rating + " " + imageUrl + " " + address + " " + yelpUrl + " " + categories;
     }
 
     @Override
@@ -58,5 +61,6 @@ public class Restaurant implements Parcelable {
         dest.writeString(this.imageUrl);
         dest.writeString(this.address);
         dest.writeString(this.yelpUrl);
+        dest.writeString(this.categories);
     }
 }

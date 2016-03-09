@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
+import org.w3c.dom.Text;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
@@ -101,6 +103,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         String name = generated.name;
         String ratingUrl = generated.rating;
         String imageUrl = generated.imageUrl;
+        String categories = generated.categories;
 //        String categories = generated.categories;
 
         restaurantNameTextView = (TextView)findViewById(R.id.restaurant_name);
@@ -114,6 +117,16 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         restaurantImageView = (ImageView)findViewById(R.id.restaurant_image);
         dit = new DownloadImageTask(restaurantImageView);
         dit.execute(imageUrl);
+
+        restaurantCategoriesTextView = (TextView)findViewById(R.id.restaurant_category);
+        // getting rid of braces [ and ] at the beginning and end of the string
+        // ["Japanese","japanese"],["Soup","soup"]
+        categories = categories.substring(1, categories.length() - 1);
+        restaurantCategoriesTextView.setText(categories);
+
+        // testing
+//        Log.v(TAG, categories);
+
     }
 
     // Downloads an image using the URL and displays it in an ImageView

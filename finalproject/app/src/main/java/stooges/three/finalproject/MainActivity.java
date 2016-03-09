@@ -311,8 +311,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String img = rest.getString("image_url");
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
-                    
-                    restaurants.add(new Restaurant(name, rating, img, address, yelpUrl));
+                    String categories = rest.getString("categories");
+                    // test
+                    Log.v(TAG, categories);
+                    restaurants.add(new Restaurant(name, rating, img, address, yelpUrl, categories));
                     starter += 99/count;
                     mainCircle.setProgress(starter);
 //                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
@@ -327,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
 
                 // testing: prints out
-                 printResults("SEARCHTEST", response);
+                // printResults("SEARCHTEST", response);
 
                 Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
                 // todo: Sean - is there a difference in below?
@@ -341,8 +343,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mainCircle.setProgress(99);
                 startActivity(intent);
                 mainCircle.setProgress(0);
-
-
             }
             catch(Exception e){
                 e.printStackTrace();
