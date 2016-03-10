@@ -59,10 +59,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tag_line"
             android:orientation="vertical">
-            <ImageView
+            <RatingBar
                 android:id="@+id/restaurant_rating"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:isIndicator="true"/>
             <ImageView
                 android:id="@+id/restaurant_image"
                 android:layout_width="match_parent"
@@ -74,6 +75,11 @@
                 android:text="@string/lorem"
                 android:lineSpacingMultiplier="1.5"
                 android:padding="@dimen/activity_horizontal_margin"/>
+            <Button
+                android:id="@+id/map_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Navigate in Google Maps"/>
         </LinearLayout>
         <!-- This is where the Map goes-->
 

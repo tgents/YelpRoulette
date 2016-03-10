@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     JSONObject rest = businesses.getJSONObject(i);
                     String id = rest.getString("id");
                     String name = rest.getString("name");
-                    String rating = rest.getString("rating_img_url");
+                    String rating = rest.getString("rating");
                     String img = rest.getString("image_url");
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");

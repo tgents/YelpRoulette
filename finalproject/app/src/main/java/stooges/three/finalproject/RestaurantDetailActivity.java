@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -12,13 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.InputStream;
@@ -38,10 +43,11 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     // XML elements
     CircularProgressButton rollAgainButton;
     TextView restaurantNameTextView;
-    ImageView restaurantRatingImageView;
+    RatingBar restaurantRatingBar;
     ImageView restaurantImageView;
     TextView restaurantCategoriesTextView;
     ImageButton favButton;
+    Button mapButton;
 
     // global variables
     int restaurantSize;
@@ -63,7 +69,23 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         favorite = checkIfFavorite(current);
         setUpFavButton(current);
+
+        String address = current.address.replace("[","").replace("\"","").replace(","," ");
+        setUpMapButton(address);
     }
+
+    private void setUpMapButton(String address) {
+        final String location = address;
+        mapButton = (Button)findViewById(R.id.map_button);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+            }
+        });
+    }
+
 
     private boolean checkIfFavorite(Restaurant r) {
         Cursor cursor = db.getAllFavorites();
@@ -97,6 +119,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
                     Toast.makeText(RestaurantDetailActivity.this, fav.name+"was removed from favorites", Toast.LENGTH_SHORT).show();
                 } else {
                     favButton.setImageResource(R.drawable.ic_heart_filled);
+                    favorite = true;
                     db.insertRestaurant(fav);
                     Toast.makeText(RestaurantDetailActivity.this, fav.name+"was added to favorites", Toast.LENGTH_SHORT).show();
                 }
@@ -111,20 +134,18 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         Restaurant generated = restaurants.get(randomNum);
         String name = generated.name;
-        String ratingUrl = generated.rating;
+        String rating = generated.rating;
         String imageUrl = generated.imageUrl;
         String categories = generated.categories;
 
         restaurantNameTextView = (TextView)findViewById(R.id.restaurant_name);
         restaurantNameTextView.setText(name);
 
-        restaurantRatingImageView = (ImageView)findViewById(R.id.restaurant_rating);
-        // Downloads image of rating
-        DownloadImageTask dit = new DownloadImageTask(restaurantRatingImageView);
-        dit.execute(ratingUrl);
+        restaurantRatingBar = (RatingBar)findViewById(R.id.restaurant_rating);
+        restaurantRatingBar.setNumStars(Integer.parseInt(rating));
 
         restaurantImageView = (ImageView)findViewById(R.id.restaurant_image);
-        dit = new DownloadImageTask(restaurantImageView);
+        DownloadImageTask dit = new DownloadImageTask(restaurantImageView);
         dit.execute(imageUrl);
 
         restaurantCategoriesTextView = (TextView)findViewById(R.id.restaurant_category);
@@ -133,8 +154,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         categories = categories.substring(1, categories.length() - 1);
         restaurantCategoriesTextView.setText(categories);
 
-        // testing
-//        Log.v(TAG, categories);
         return generated;
     }
 
