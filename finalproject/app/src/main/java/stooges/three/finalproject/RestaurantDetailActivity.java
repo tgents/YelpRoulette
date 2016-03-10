@@ -142,7 +142,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         restaurantNameTextView.setText(name);
 
         restaurantRatingBar = (RatingBar)findViewById(R.id.restaurant_rating);
-        restaurantRatingBar.setNumStars(Integer.parseInt(rating));
+        restaurantRatingBar.setRating(Float.parseFloat(rating));
 
         restaurantImageView = (ImageView)findViewById(R.id.restaurant_image);
         DownloadImageTask dit = new DownloadImageTask(restaurantImageView);
