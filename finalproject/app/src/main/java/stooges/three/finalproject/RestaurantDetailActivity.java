@@ -71,16 +71,17 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         setUpFavButton(current);
 
         String address = current.address.replace("[","").replace("\"","").replace(","," ");
-        setUpMapButton(address);
+        Log.v(TAG, current + ": " + address);
+        setUpMapButton(current);
     }
 
-    private void setUpMapButton(String address) {
-        final String location = address;
+    private void setUpMapButton(Restaurant r) {
+        final Restaurant current = r;
         mapButton = (Button)findViewById(R.id.map_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+location);
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+current.name);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 startActivity(mapIntent);
