@@ -158,10 +158,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
-
-
-
-
     }
 
     @Override
@@ -249,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         double currentLongitude = location.getLongitude();
         lat = currentLatitude;
         lon = currentLongitude;
+        Log.v(TAG, ""+lat+", " + lon);
 //        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
     }
 

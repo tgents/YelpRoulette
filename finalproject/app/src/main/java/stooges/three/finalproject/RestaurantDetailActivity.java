@@ -143,24 +143,27 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         rollAgainButton = (CircularProgressButton) findViewById(R.id.search_button);
 
         if(rollAgainButton.isIndeterminateProgressMode()) {
-            rollAgainButton.setIndeterminateProgressMode(false);
-            rollAgainButton.setProgress(0);
+            resetRollAgainButton();
         }
-
         // Within this method, call the async task that connects to Yelp and pulls restaurant data
         rollAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (rollAgainButton.isIndeterminateProgressMode() || rollAgainButton.getProgress() != 0) {
-                    rollAgainButton.setIndeterminateProgressMode(false);
-                    rollAgainButton.setProgress(0);
+                    resetRollAgainButton();
                 } else {
                     rollAgainButton.setIndeterminateProgressMode(true);
                     rollAgainButton.setProgress(1);
                     generatesRestaurantSetsView();
+                    resetRollAgainButton();
                 }
             }
         });
+    }
+
+    private void resetRollAgainButton() {
+        rollAgainButton.setIndeterminateProgressMode(false);
+        rollAgainButton.setProgress(0);
     }
 
     // Downloads an image using the URL and displays it in an ImageView
