@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     ArrayList<Restaurant> restaurants;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    DatabaseHelper db;
 
 //    double lat = 0;
 //    double lon = 0;
@@ -129,38 +131,36 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
+        db = new DatabaseHelper(this);
+
+
         // Within this method, call the async task that will pull restaurant from favorites list
         favcircle = (CircularProgressButton) findViewById(R.id.favorites_search);
         // TODO: 3/8/2016 Create intent and start Favorites List Activity
         favcircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(favcircle.isIndeterminateProgressMode()) {
-                    favcircle.setIndeterminateProgressMode(false);
-                    favcircle.setProgress(0);
+                Cursor cursor = db.getAllFavorites();
+                if(cursor.getCount() >= 2) {
+                    ArrayList<String> temp = new ArrayList<String>();
+                    // Means there is favorites.
+                    if (cursor.moveToFirst()) {
+                        while (!cursor.isAfterLast()) {
+                            temp.add(cursor.getString(1));
+                            cursor.moveToNext();
+                        }
+                    }
+                    Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
+                    intent.putExtra("restaurants", temp);
+                    startActivity(intent);
                 } else {
-                    favcircle.setIndeterminateProgressMode(true);
-                    favcircle.setProgress(50); // set progress > 0 & < 100 to display indeterminate progress
+                    // notification for user to let them know that there are no favorites
+                    Toast.makeText(MainActivity.this, "There doesn't appear to be enough favorites to randomize :<", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        // Parse through the favorites in the preference screen to see if they have any favorites
-        // if they don't have more than 2 favorites, don't display the hit me with favorites button
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String favorites = sharedPref.getString("pref_favorites", "Error");
-        if(!favorites.equals("Error")) {
-            // Means there is favorites. Decide how to separate each restaurant first. We can use | for now
-            String[] restlist = favorites.split("|");
-            if (restlist.length > 1) {
-                // shows loading
-                favcircle.setVisibility(View.VISIBLE);
-            }
-        } else {
-            favcircle.setVisibility(View.GONE);
-            // notification for user to let them know that there are no favorites
-            Toast.makeText(MainActivity.this, "No Favorites stored!", Toast.LENGTH_SHORT).show();
-        }
+
 
 
     }
