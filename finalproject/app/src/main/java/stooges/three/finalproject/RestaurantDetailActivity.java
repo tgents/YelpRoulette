@@ -70,8 +70,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         favorite = checkIfFavorite(current);
         setUpFavButton(current);
 
-        String address = current.address.replace("[","").replace("\"","").replace(","," ");
-        Log.v(TAG, current + ": " + address);
         setUpMapButton(current);
     }
 

@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         String distance = sharedPref.getString("pref_distance", "");
 //                        Log.v(TAG, distance);
 //                        Log.v(TAG, "latlon:" + lat + "," +lon);
+
                         new YelpApi().execute("restaurant", lat + "", lon + "", distance);
                     }
                 }
