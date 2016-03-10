@@ -123,6 +123,9 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
     private void setUpFavButton(Restaurant r) {
         final Restaurant fav = r;
+        if (favorite) {
+            favButton.setImageResource(R.drawable.ic_heart_filled);
+        } // default is unfilled
         favButton = (ImageButton)findViewById(R.id.favorite_button);
         favButton.setOnClickListener(new View.OnClickListener() {
             @Override
