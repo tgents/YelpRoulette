@@ -152,11 +152,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
-        <<<<<<<HEAD
-
-
-                =======
-        >>>>>>>671 c70bd8035cc8fb1fc785f34cc49415a00689f
     }
 
     @Override
