@@ -57,7 +57,7 @@ public class FavoritesActivity extends AppCompatActivity {
     //populates the current favorites
     private void getFavorites(){
         Cursor cursor = favdb.getAllFavorites();
-        favorites = new ArrayList<Favorite>();
+        favorites = new ArrayList<>();
         if (cursor.getCount() < 1) {
             remove.setVisibility(View.INVISIBLE);
             TextView noFav = (TextView) findViewById(R.id.nofavs);

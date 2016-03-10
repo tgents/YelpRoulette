@@ -2,6 +2,7 @@ package stooges.three.finalproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,17 +33,20 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
     private static final String TAG = "RestaurantActivity";
 
+     DatabaseHelper db = new DatabaseHelper(this);
+
     // XML elements
     CircularProgressButton rollAgainButton;
     TextView restaurantNameTextView;
     ImageView restaurantRatingImageView;
     ImageView restaurantImageView;
     TextView restaurantCategoriesTextView;
+    ImageButton favButton;
 
     // global variables
     int restaurantSize;
-    Random r = new Random();
     ArrayList<Restaurant> restaurants;
+    boolean favorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +58,53 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         restaurants = (ArrayList<Restaurant>) intent.getExtras().get("restaurants");
         restaurantSize = restaurants.size();
 
-        generatesRestaurantSetsView();
+        Restaurant current = generatesRestaurantSetsView();
         setUpRollButton();
+
+        favorite = checkIfFavorite(current);
+        setUpFavButton(current);
     }
 
-    private void generatesRestaurantSetsView() {
+    private boolean checkIfFavorite(Restaurant r) {
+        Cursor cursor = db.getAllFavorites();
+        ArrayList<String> restaurantIDs = new ArrayList<>();
+        if (cursor.getCount() > 1) {
+            if (cursor.moveToFirst()) {
+                while (cursor.isAfterLast()) {
+                    restaurantIDs.add(cursor.getString(0));
+                    cursor.moveToNext();
+                }
+            }
+            for (String s : restaurantIDs) {
+                if (r.id.equals(s)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void setUpFavButton(Restaurant r) {
+        final Restaurant fav = r;
+        favButton = (ImageButton)findViewById(R.id.favorite_button);
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favorite) {
+                    favButton.setImageResource(R.drawable.ic_heart_unfilled);
+                    favorite = false;
+                    db.removeFavorite(fav.id, fav.name);
+                    Toast.makeText(RestaurantDetailActivity.this, fav.name+"was removed from favorites", Toast.LENGTH_SHORT).show();
+                } else {
+                    favButton.setImageResource(R.drawable.ic_heart_filled);
+                    db.insertRestaurant(fav);
+                    Toast.makeText(RestaurantDetailActivity.this, fav.name+"was added to favorites", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private Restaurant generatesRestaurantSetsView() {
         // r.nextInt returns random integer from 0 to n (exclusive)
         Random r = new Random();
         int randomNum = r.nextInt(restaurantSize);
@@ -88,7 +135,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         // testing
 //        Log.v(TAG, categories);
-
+        return generated;
     }
 
     private void setUpRollButton() {
@@ -100,8 +147,6 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             rollAgainButton.setProgress(0);
         }
 
-        final Random r = new Random();
-
         // Within this method, call the async task that connects to Yelp and pulls restaurant data
         rollAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +155,8 @@ public class RestaurantDetailActivity extends AppCompatActivity {
                     rollAgainButton.setIndeterminateProgressMode(false);
                     rollAgainButton.setProgress(0);
                 } else {
+                    rollAgainButton.setIndeterminateProgressMode(true);
+                    rollAgainButton.setProgress(1);
                     generatesRestaurantSetsView();
                 }
             }
