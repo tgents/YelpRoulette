@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         // Within this method, call the async task that will pull restaurant from favorites list
         favcircle = (CircularProgressButton) findViewById(R.id.favorites_search);
-        // TODO: 3/8/2016 Create intent and start Favorites List Activity
         favcircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,8 +152,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });
+        <<<<<<<HEAD
 
 
+                =======
+        >>>>>>>671 c70bd8035cc8fb1fc785f34cc49415a00689f
     }
 
     @Override
@@ -240,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         double currentLongitude = location.getLongitude();
         lat = currentLatitude;
         lon = currentLongitude;
+        Log.v(TAG, "" + lat + ", " + lon);
 //        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
     }
 
@@ -314,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     JSONObject rest = businesses.getJSONObject(i);
                     String id = rest.getString("id");
                     String name = rest.getString("name");
-                    String rating = rest.getString("rating_img_url");
+                    String rating = rest.getString("rating");
                     String img = rest.getString("image_url");
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
@@ -337,6 +340,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 startActivity(intent);
                 mainCircle.setProgress(0);
             } catch (Exception e) {
+                mainCircle.setIndeterminateProgressMode(false);
+                mainCircle.setProgress(0);
                 e.printStackTrace();
             }
         }

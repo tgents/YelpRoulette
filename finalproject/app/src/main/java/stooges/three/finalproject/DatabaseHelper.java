@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    private static final String TAG = "DatabaseHelper";
+
     private SQLiteDatabase db;
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "favorites.db";
@@ -46,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
+        Log.v(TAG, cursor.toString());
         return cursor;
     }
 
