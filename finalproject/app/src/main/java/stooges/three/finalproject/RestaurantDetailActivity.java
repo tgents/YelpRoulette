@@ -49,6 +49,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     ImageButton favButton;
     Button mapButton;
 
+
     // global variables
     int restaurantSize;
     ArrayList<Restaurant> restaurants;
