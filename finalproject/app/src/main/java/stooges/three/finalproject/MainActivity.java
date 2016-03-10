@@ -136,11 +136,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onClick(View v) {
                 Cursor cursor = db.getAllFavorites();
                 if (cursor.getCount() >= 2) {
-                    ArrayList<String> temp = new ArrayList<String>();
+                    ArrayList<Restaurant> temp = new ArrayList<Restaurant>();
                     // Means there is favorites.
                     if (cursor.moveToFirst()) {
                         while (!cursor.isAfterLast()) {
-                            temp.add(cursor.getString(1));
+                            String id = cursor.getString(0);
+                            String name= cursor.getString(1);
+                            String rate= cursor.getString(2);
+                            String img= cursor.getString(3);
+                            String address= cursor.getString(4);
+                            String url= cursor.getString(5);
+                            String cat= cursor.getString(6);
+                            Restaurant newRest = new Restaurant(id, name, rate, img, address, url, cat);
+                            temp.add(newRest);
                             cursor.moveToNext();
                         }
                     }

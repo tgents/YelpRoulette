@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -59,6 +60,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Information for restaurants are in this. They are "name", "address", "image", "url", and "rating"
         Intent intent = getIntent();
@@ -72,6 +74,17 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         setUpFavButton(current);
 
         setUpMapButton(current);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setUpMapButton(Restaurant r) {
@@ -118,12 +131,12 @@ public class RestaurantDetailActivity extends AppCompatActivity {
                     favButton.setImageResource(R.drawable.ic_heart_unfilled);
                     favorite = false;
                     db.removeFavorite(fav.id, fav.name);
-                    Toast.makeText(RestaurantDetailActivity.this, fav.name+"was removed from favorites", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RestaurantDetailActivity.this, fav.name+" was removed from favorites", Toast.LENGTH_SHORT).show();
                 } else {
                     favButton.setImageResource(R.drawable.ic_heart_filled);
                     favorite = true;
                     db.insertRestaurant(fav);
-                    Toast.makeText(RestaurantDetailActivity.this, fav.name+"was added to favorites", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RestaurantDetailActivity.this, fav.name+" was added to favorites", Toast.LENGTH_SHORT).show();
                 }
             }
         });
