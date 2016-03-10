@@ -8,11 +8,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +24,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,25 +40,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
     private static final String TAG = "MainActivity";
+    final int dist = 8046;
     CircularProgressButton mainCircle;
     CircularProgressButton favcircle;
     ArrayList<Restaurant> restaurants;
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
     DatabaseHelper db;
-
-//    double lat = 0;
-//    double lon = 0;
+    //default lat lon and distance
     double lat = 47.655149;
     double lon = -122.307947;
-    final int dist = 8046;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Find location
+        // Find location
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -122,10 +119,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         String distance = sharedPref.getString("pref_distance", "");
 //                        Log.v(TAG, distance);
 //                        Log.v(TAG, "latlon:" + lat + "," +lon);
-                        new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
-//                        if (distance != "")
-//                            new YelpApi().execute("restaurant", lat + "", lon + "", distance + "");
-//                        else new YelpApi().execute("restaurant", lat + "", lon + "", dist + "");
+                        new YelpApi().execute("restaurant", lat + "", lon + "", distance);
                     }
                 }
             }
@@ -141,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onClick(View v) {
                 Cursor cursor = db.getAllFavorites();
-                if(cursor.getCount() >= 2) {
+                if (cursor.getCount() >= 2) {
                     ArrayList<String> temp = new ArrayList<String>();
                     // Means there is favorites.
                     if (cursor.moveToFirst()) {
@@ -161,25 +155,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         });
 
 
-
-
     }
 
     @Override
     public void onConnected(Bundle bundle) {
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if(permission == PackageManager.PERMISSION_GRANTED){
+        if (permission == PackageManager.PERMISSION_GRANTED) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location == null) {
                 Log.v(TAG, "Location not found, either retrying or need to update");
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
-            }
-            else {
+            } else {
                 handleNewLocation(location);
             }
-        }
-        else{
+        } else {
             //if(ActivityCompat.shouldShowRequestPermissionRationale(...))
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -190,9 +180,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch(requestCode){
+        switch (requestCode) {
             case 1: { //if asked for location
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     onConnected(null); //should work :/
                 }
             }
@@ -253,11 +243,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
     }
 
+    //In your class
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mainCircle.setIndeterminateProgressMode(false);
+//        //Retrieve data in the intent
+//        String editTextValue = intent.getStringExtra("valueId");
+    }
 
+    //AsyncTask that connects to Yelp
     public class YelpApi extends AsyncTask<String, Void, String> {
+        //api uri
         private static final String API_HOST = "api.yelp.com";
         private static final String SEARCH_PATH = "/v2/search";
 
+        //keys
         private static final String consumer_key = "7EPO_0MB-5XsfzeE5PpqRw";
         private static final String consumer_secret = "5BYGwh_WC9AdJL6_dKFYr1JKCVc";
         private static final String token = "pXGPbhiaGJ7YiXADvT5uxSOSAFqGzKVy";
@@ -290,23 +291,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         protected void onPostExecute(String response) {
-            try{
+            try {
                 // insert the information into the arraylist. Should be passed to restaurant activity
                 // through an intent, along with all the necessary information. The characters can be parsed there.
 
                 restaurants = new ArrayList<Restaurant>();
 
-//                // testing: prints out
+                // prints out response
 //                printResults("SEARCHTEST", response);
 
                 JSONObject json = new JSONObject(response);
                 JSONArray businesses;
                 businesses = json.getJSONArray("businesses");
+
+                // used for progress updates to mainCircle
                 int count = businesses.length();
                 int starter = 1;
-
                 mainCircle.setProgress(starter);
-                for(int i = 0; i < businesses.length(); i++) {
+
+                //loops through the response and extracts business info
+                for (int i = 0; i < businesses.length(); i++) {
                     JSONObject rest = businesses.getJSONObject(i);
                     String id = rest.getString("id");
                     String name = rest.getString("name");
@@ -315,65 +319,39 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     String address = rest.getJSONObject("location").getString("display_address");
                     String yelpUrl = rest.getString("url");
                     String categories = rest.getString("categories");
-//                    // test
 //                    Log.v(TAG, categories);
                     restaurants.add(new Restaurant(id, name, rating, img, address, yelpUrl, categories));
-                    starter += 99/count;
+
+                    //updates progress for the circle thing
+                    starter += 99 / count;
                     mainCircle.setProgress(starter);
-//                    Log.v(TAG,restaurants.get(restaurants.size()-1) + "");
-//                    names.add(rest.getString("name"));
-//                    rating.add(rest.getString("rating_img_url"));
-//                    image.add(rest.getString("image_url"));
-//                    address.add(rest.getJSONObject("location").getString("display_address"));
-//                    url.add(rest.getString("url"));
-                    // testing: prints out restaurants from array list that we stored from the
-                    // response from Yelp API
-                    // Log.v(TAG, restaurants.get(restaurants.size() - 1) + "");
+
+                    // prints the most recently added restaurant
+//                    Log.v(TAG, restaurants.get(restaurants.size() - 1) + "");
                 }
 
-//                //add some favorites for testing
-//                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
-//                for(int i = 0; i < 5; i ++){
-//                    db.insertRestaurant(restaurants.get(i));
-//                }
-
+                //puts the restaurant arraylist into an intent
                 Intent intent = new Intent(getApplicationContext(), RestaurantDetailActivity.class);
-//                Log.v(TAG+"Application", getApplicationContext().toString());
-//                intent.putParcelableArrayListExtra("restaurants", restaurants);
                 intent.putExtra("restaurants", restaurants);
-//                intent.putExtra("names", names);
-//                intent.putExtra("rating", rating);
-//                intent.putExtra("image", image);
-//                intent.putExtra("address", address);
-//                intent.putExtra("url", url);
                 mainCircle.setProgress(99);
                 startActivity(intent);
                 mainCircle.setProgress(0);
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
+        //used for printing the extremely long results
         public void printResults(String TAG, String message) {
             int maxLogSize = 2000;
-            for(int i = 0; i <= message.length() / maxLogSize; i++) {
+            for (int i = 0; i <= message.length() / maxLogSize; i++) {
                 int start = i * maxLogSize;
-                int end = (i+1) * maxLogSize;
+                int end = (i + 1) * maxLogSize;
                 end = end > message.length() ? message.length() : end;
                 Log.v(TAG, message.substring(start, end));
             }
         }
 
-    }
-
-    //In your class
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mainCircle.setIndeterminateProgressMode(false);
-//        //Retrieve data in the intent
-//        String editTextValue = intent.getStringExtra("valueId");
     }
 
 }

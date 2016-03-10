@@ -8,9 +8,9 @@
         <item>10 Miles</item>
     </string-array>
     <string-array name="distance_values">
-        <item>1</item>
-        <item>5</item>
-        <item>10</item>
+        <item>1609</item>
+        <item>8047</item>
+        <item>16093</item>
     </string-array>
     <string-array name="food_type">
         <item>American</item>
@@ -35,4 +35,5 @@
     <string name="consumer_secret">5BYGwh_WC9AdJL6_dKFYr1JKCVc</string>
     <string name="token">pXGPbhiaGJ7YiXADvT5uxSOSAFqGzKVy</string>
     <string name="token_secret">NEIInw9KhCUBcu6s5qzYl6A5oUo</string>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
