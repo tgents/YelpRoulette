@@ -8,19 +8,19 @@
         android:entryValues="@array/distance_values"
         android:defaultValue="5" />
 
-    <MultiSelectListPreference
-        android:key="pref_foodtype"
-        android:title="Food Types"
-        android:summary="Types of food to search for"
-        android:entries="@array/food_type"
-        android:entryValues="@array/food_type"
-        android:defaultValue="@array/pref_food_empty" />
+    <!--<MultiSelectListPreference-->
+        <!--android:key="pref_foodtype"-->
+        <!--android:title="Food Types"-->
+        <!--android:summary="Types of food to search for"-->
+        <!--android:entries="@array/food_type"-->
+        <!--android:entryValues="@array/food_type"-->
+        <!--android:defaultValue="@array/pref_food_empty" />-->
 
-    <EditTextPreference
-        android:key="pref_favorites"
-        android:title="Favorites"
-        android:summary="List of favorites : Do not edit"
-        android:defaultValue="" />
+    <!--<EditTextPreference-->
+        <!--android:key="pref_favorites"-->
+        <!--android:title="Favorites"-->
+        <!--android:summary="List of favorites : Do not edit"-->
+        <!--android:defaultValue="" />-->
 
 
 
