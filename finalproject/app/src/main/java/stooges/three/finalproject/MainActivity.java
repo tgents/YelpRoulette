@@ -230,10 +230,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         handleNewLocation(location);
     }
 
-
     private void handleNewLocation(Location location) {
-//        Log.d(TAG, location.toString());
-
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         lat = currentLatitude;
