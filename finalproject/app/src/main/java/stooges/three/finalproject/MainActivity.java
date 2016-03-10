@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         // Within this method, call the async task that will pull restaurant from favorites list
         favcircle = (CircularProgressButton) findViewById(R.id.favorites_search);
-        // TODO: 3/8/2016 Create intent and start Favorites List Activity
         favcircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -351,6 +350,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 mainCircle.setProgress(0);
             }
             catch(Exception e){
+                mainCircle.setIndeterminateProgressMode(false);
+                mainCircle.setProgress(0);
                 e.printStackTrace();
             }
         }
