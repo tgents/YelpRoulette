@@ -134,12 +134,12 @@ public class RestaurantDetailActivity extends AppCompatActivity {
                     favButton.setImageResource(R.drawable.ic_heart_unfilled);
                     favorite = false;
                     db.removeFavorite(fav.id, fav.name);
-                    Toast.makeText(RestaurantDetailActivity.this, fav.name+" was removed from favorites", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RestaurantDetailActivity.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
                 } else {
                     favButton.setImageResource(R.drawable.ic_heart_filled);
                     favorite = true;
                     db.insertRestaurant(fav);
-                    Toast.makeText(RestaurantDetailActivity.this, fav.name+" was added to favorites", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RestaurantDetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
                 }
             }
         });
