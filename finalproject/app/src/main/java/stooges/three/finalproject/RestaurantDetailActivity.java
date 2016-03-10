@@ -45,9 +45,11 @@ public class RestaurantDetailActivity extends AppCompatActivity {
     TextView restaurantNameTextView;
     RatingBar restaurantRatingBar;
     ImageView restaurantImageView;
+    TextVI
     TextView restaurantCategoriesTextView;
     ImageButton favButton;
     Button mapButton;
+
 
     // global variables
     int restaurantSize;
