@@ -6,4 +6,4 @@ If you want, you can accumulate a list of favorites and then have the app choose
 
 If you want to try it on your device, here is an apk you can easily install: https://dl.dropboxusercontent.com/u/24251075/YelpRoulette.apk
 
-This was created by Sean KEr, Thomas Tseng, and Jeff Zhong for their Android Development final project at the UW Information School.
+This was created by Sean Ker, Thomas Tseng, and Jeff Zhong for their Android Development final project at the UW Information School.
