@@ -1,5 +1,5 @@
 # Yelp Roulette
-## Info 498 Final Project
+### Info 498 Final Project
 As the name implies, this application will give you a restaurant at random based on your location.
 The way it works is by grabbing your device's location and then connecting to the Yelp API to grab a list of restaurants. It will then randomly choose a restaurant and display it.
 If you want, you can accumulate a list of favorites and then have the app choose from those instead of just a random restaurant.
