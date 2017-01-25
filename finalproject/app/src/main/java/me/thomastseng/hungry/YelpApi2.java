@@ -1,4 +1,4 @@
-package stooges.three.finalproject;
+package me.thomastseng.hungry;
 
 import org.scribe.builder.api.DefaultApi10a;
 import org.scribe.model.Token;

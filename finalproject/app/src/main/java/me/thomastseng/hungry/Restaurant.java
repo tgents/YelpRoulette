@@ -1,4 +1,4 @@
-package stooges.three.finalproject;
+package me.thomastseng.hungry;
 
 import android.os.Parcel;
 import android.os.Parcelable;

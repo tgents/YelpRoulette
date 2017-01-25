@@ -1,14 +1,11 @@
-package stooges.three.finalproject;
+package me.thomastseng.hungry;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Rating;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,13 +20,11 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
+
+import me.thomastseng.hungry.R;
 
 /**
  * Created by Sean Ker on 3/1/2016
@@ -158,6 +153,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
 
         restaurantNameTextView = (TextView)findViewById(R.id.restaurant_name);
         restaurantNameTextView.setText(name);
+        getSupportActionBar().setTitle(name);
 
         restaurantRatingBar = (RatingBar)findViewById(R.id.restaurant_rating);
         restaurantRatingBar.setRating(Float.parseFloat(rating));

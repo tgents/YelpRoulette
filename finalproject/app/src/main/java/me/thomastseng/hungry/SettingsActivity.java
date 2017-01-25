@@ -1,9 +1,7 @@
-package stooges.three.finalproject;
+package me.thomastseng.hungry;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity {
 

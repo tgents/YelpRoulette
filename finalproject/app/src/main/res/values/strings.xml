@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Yelp Roulette</string>
+    <string name="app_name">I\'m Feeling Hungry</string>
     <string name="distance_default">5</string>
     <string-array name="pref_food_empty"></string-array>
     <string-array name="distance">

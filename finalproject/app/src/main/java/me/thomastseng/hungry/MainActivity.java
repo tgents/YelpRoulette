@@ -1,4 +1,4 @@
-package stooges.three.finalproject;
+package me.thomastseng.hungry;
 
 import android.Manifest;
 import android.content.Intent;
@@ -36,6 +36,8 @@ import org.scribe.oauth.OAuthService;
 
 import java.util.ArrayList;
 
+import me.thomastseng.hungry.R;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener {
 
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().hide();
 
         // Find location
         // Create an instance of GoogleAPIClient.
